@@ -1,25 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export default function ModalEdit({
-  editModalFunc,
+export default function ModalAdd({
+  hideModal,
   title,
   onChange,
-  updatedata,
-  sku,
-  form,
+  submitAddProduk,
 }) {
-  //   const [updatedata, setupdatedata] = useState({});
-
-  //   const editdata = async () => {
-  //     const data = await axios.get(`http://localhost:7000/products/${sku}`);
-  //     setupdatedata({ ...data });
-  //   };
-
-  useEffect(() => {
-    console.log(form);
-  }, []);
-
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -31,7 +17,7 @@ export default function ModalEdit({
               <h3 className="text-3xl font-semibold">{title}</h3>
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={editModalFunc}
+                onClick={hideModal}
               >
                 <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                   ×
@@ -48,7 +34,6 @@ export default function ModalEdit({
                     className="w-full px-3 py-5 rounded-md h-5 border-2 border-slate-600"
                     name="name"
                     placeholder="Masukan Nama Produk"
-                    value={form.name}
                     onChange={onChange}
                   />
                 </div>
@@ -59,7 +44,6 @@ export default function ModalEdit({
                     className="w-full px-3 py-5 rounded-md h-5 border-2 border-slate-600"
                     name="sku"
                     placeholder="Masukan SKU Produk"
-                    value={form.sku}
                     onChange={onChange}
                   />
                 </div>
@@ -72,7 +56,6 @@ export default function ModalEdit({
                     className="w-full px-3 py-5 rounded-md h-5 border-2 border-slate-600"
                     name="price"
                     placeholder="Masukan Harga Produk"
-                    value={form.price}
                     onChange={onChange}
                   />
                 </div>
@@ -96,7 +79,6 @@ export default function ModalEdit({
                     name="description"
                     onChange={onChange}
                     className="w-full border-2 border-slate-600 p-3 h-28"
-                    value={form.description}
                   ></textarea>
                 </div>
               </div>
@@ -106,14 +88,14 @@ export default function ModalEdit({
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={editModalFunc}
+                onClick={hideModal}
               >
                 Close
               </button>
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={updatedata}
+                onClick={submitAddProduk}
               >
                 Save Changes
               </button>

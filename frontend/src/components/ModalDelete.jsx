@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 
-function ModalDelete({ hideModal, title, onClick, deleteProduk }) {
+function ModalDelete({ hideModal, title, deleteModalFunc, deleteProduk }) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -13,7 +13,7 @@ function ModalDelete({ hideModal, title, onClick, deleteProduk }) {
               <h3 className="text-3xl font-semibold">{title}</h3>
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={onClick}
+                onClick={deleteModalFunc}
               >
                 <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                   ×
@@ -29,7 +29,7 @@ function ModalDelete({ hideModal, title, onClick, deleteProduk }) {
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={onClick}
+                onClick={deleteModalFunc}
               >
                 Close
               </button>

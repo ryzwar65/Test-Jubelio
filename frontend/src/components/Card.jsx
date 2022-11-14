@@ -1,118 +1,54 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import currencyFormat from "../helpers/currencyFormat";
 import Button from "./Button";
 import ModalDelete from "./ModalDelete";
 import ModalEdit from "./ModalEdit";
 
 function Card({
-  sku,
-  image,
-  name,
+  form,
+  onChange,
+  editModalFunc,
+  id,
+  edit,
   description,
+  sku,
+  deleteModalFunc,
+  deleteModal,
+  name,
   price,
+  image,
+  updatedata,
+  produkstore,
   deleteProduk,
-  currentsetsku,
-  updateState,
-  setsku,
-  // editdata,
 }) {
-  const [addmodal, setaddmodal] = useState(false);
-  const [editmodal, seteditmodal] = useState(false);
-  const [form, setform] = useState({
-    name: null,
-    sku: null,
-    description: null,
-    price: null,
-    image: null,
-  });
-  function currencyFormat(num) {
-    return (
-      "Rp " +
-      Math.round(num)
-        .toFixed(0)
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    );
-  }
-
-  function onClick() {
-    if (!addmodal) {
-      setaddmodal(true);
-      // setsku(sku);
-      currentsetsku(sku);
-    } else {
-      setaddmodal(false);
-      setsku("");
-    }
-  }
-
-  const editdata = async () => {
-    console.log("ADSADAD");
-    console.log("curren sku : ", sku);
-    const data = await axios.get(`http://localhost:7000/products/${sku}`);
-    console.log("DATA ", data.data);
-    setform({ ...data.data });
+  const clickEdit = () => {
+    editModalFunc();
+    produkstore.editData(sku);
   };
-
-  function editModalonClick() {
-    if (!editmodal) {
-      console.log("SKU : ", sku);
-      seteditmodal(true);
-      // setsku(sku);
-      editdata();
-    } else {
-      seteditmodal(false);
-      setsku("");
-    }
-  }
-
-  const updatedata = async () => {
-    console.log("Update data ", form);
-    let formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("sku", form.sku);
-    formData.append("description", form.description);
-    formData.append("price", form.price);
-    formData.append("image", form.image);
-    currentsetsku(sku);
-    const data = await axios.put(
-      `http://localhost:7000/products/update/${sku}`,
-      formData
-    );
-    if (data.data.status == false) {
-      alert(data.data.message);
-    } else {
-      updateState([data.data]);
-      console.log(data);
-    }
-    // const data = await axios.get(`http://localhost:7000/products/${sku}`);
+  const clickDelete = () => {
+    deleteModalFunc();
+    produkstore.setSkuDelete(sku);
   };
-
-  const editonChange = (e) => {
-    // console.log(e.target.files[0]);
-    if (e.target.type == "file") {
-      setform({ ...form, [e.target.name]: e.target.files[0] });
-    } else {
-      setform({ ...form, [e.target.name]: e.target.value });
-    }
-  };
-
   return (
-    <div>
-      {addmodal ? (
-        <ModalDelete
-          deleteProduk={deleteProduk}
-          title={"Peringatan"}
-          onClick={onClick}
-        />
-      ) : null}
-      {editmodal ? (
+    <>
+      {edit ? (
         <ModalEdit
           title={"Edit Produk"}
           sku={sku}
-          editModalonClick={editModalonClick}
-          onChange={editonChange}
+          editModalFunc={editModalFunc}
+          onChange={onChange}
           form={form}
           updatedata={updatedata}
+        />
+      ) : null}
+      {deleteModal ? (
+        <ModalDelete
+          title={"Delete Produk"}
+          sku={sku}
+          deleteModalFunc={deleteModalFunc}
+          onChange={onChange}
+          form={form}
+          deleteProduk={deleteProduk}
         />
       ) : null}
       <div className="bg-white md:w-[21rem] w-[24rem] h-[22rem] rounded-lg overflow-hidden shadow-lg">
@@ -138,18 +74,18 @@ function Card({
               <Button
                 label={"Delete"}
                 color={"bg-red-600 text-white px-3 mx-1"}
-                onClick={onClick}
+                onClick={clickDelete}
               />
               <Button
                 label={"Edit"}
                 color={"bg-yellow-600 text-white px-5 mx-1"}
-                onClick={editModalonClick}
+                onClick={clickEdit}
               />
             </div>
           </span>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

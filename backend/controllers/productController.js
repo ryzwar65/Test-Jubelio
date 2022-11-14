@@ -25,11 +25,17 @@ exports.getAll = async (request, h) => {
 
 exports.addProduct = async (request, h) => {
   try {
-    const file = request.payload.image != "null" ? request.payload.image : null;
-    if (request.payload.sku == "null") {
+    if (request.payload.sku == "null" || request.payload.sku == undefined) {
       return {
         status: false,
         message: "SKU tidak Boleh kosong",
+      };
+    }
+    var checkingSku = await findById(request.payload.sku);
+    if (checkingSku && checkingSku.sku == request.payload.sku) {
+      return {
+        status: false,
+        message: "SKU Sudah Ada",
       };
     }
     return new Promise(async (resolve, reject) => {
